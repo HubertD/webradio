@@ -1,0 +1,54 @@
+<html>
+ <head>
+  <script src="jquery-2.0.2.min.js"></script>
+  <style>
+	body { background-color:#222; color:white; font-family:verdana; }
+	.template { display:none; }
+	.stream { background-color:#444; margin:20px 5px; border: 2px solid #888; border-radius:20px; clear:both; min-height:120px; cursor:pointer;}
+	.thumb { width:300px; height:100px; float:left; background-position: center; background-repeat:no-repeat; margin:5px; border-radius:20px; background-color:white; }
+	.info { padding: 5px 5px 5px 325px; }
+	.title { font-size:200%; }
+  </style>
+ </head>
+
+ <body>
+  <div class="stream template">
+    <div class="thumb"></div>
+	<div class="info">
+		<div class="title"></div>
+		<div class="descr"></div>
+    </div>
+  </div>
+
+  <div id="streams"></div>
+
+  <script>
+	$(function() {
+
+		$.ajax({url:"/stream/list", dataType:"json"})
+			.done(function(data) {
+				for (var id in data) {
+					var stream = data[id];
+					var x = $(".stream.template").clone();
+					x.data("streamid", id);
+					x.removeClass("template");
+					x.find(".thumb").css("background-image","url("+stream.thumb+")");
+					x.find(".title").text(stream.title);
+					x.find(".descr").text(stream.url);
+					x.click(function() {
+						console.log($(this).data("streamid"));
+						var data = { id: $(this).data("streamid") };
+						$.ajax({type:"POST", url:"/stream/play", data:JSON.stringify(data, null, "\t"), contentType: 'application/json;charset=UTF-8'})
+							.fail(function(xmlhr, status) { alert("Fehler beim Umschalten:\n"+status); });
+					});
+					$("#streams").append(x);
+				}
+			})
+			.fail(function(xmlhr, status) {
+				console.log("error loading json data:");
+				console.log(status);
+			});
+	});
+  </script>
+ </body>
+</html>

@@ -1,0 +1,19 @@
+{
+	"streams": {
+		"detector_wort": {
+			"url": "http://detektor.fm/stream/mp3/wort/",
+			"title": "detektor.fm Wort",
+			"thumb": "http://cdn.detektor.fm/assets/bilder/detektor-fm-webradio.png"
+		},
+		"detector_musik": {
+			"url": "http://detektor.fm/stream/mp3/musik/",
+			"title": "detektor.fm Musik",
+			"thumb": "http://cdn.detektor.fm/assets/bilder/detektor-fm-webradio.png"
+		},
+		"wdr2": {
+			"url": "http://wdr-mp3-m-wdr2-koeln.akacast.akamaistream.net/7/812/119456/v1/gnl.akacast.akamaistream.net/wdr-mp3-m-wdr2-koeln",
+			"title": "WDR 2 Radio",
+			"thumb": "http://www.wdr.de/wdrlive/wdr2_winkel.gif"
+		}
+	}
+}
