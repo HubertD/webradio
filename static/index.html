@@ -23,18 +23,24 @@
   <div id="streams"></div>
 
   <script>
-	$(function() {
 
+	function update() {
 		$.ajax({url:"/stream/list", dataType:"json"})
 			.done(function(data) {
+				$("#streams").empty();
 				for (var id in data) {
 					var stream = data[id];
 					var x = $(".stream.template").clone();
+					var descr = stream.url;
+					if (stream.current) {
+						descr = stream.current;
+					}
+	
 					x.data("streamid", id);
 					x.removeClass("template");
 					x.find(".thumb").css("background-image","url("+stream.thumb+")");
 					x.find(".title").text(stream.title);
-					x.find(".descr").text(stream.url);
+					x.find(".descr").text(descr);
 					x.click(function() {
 						console.log($(this).data("streamid"));
 						var data = { id: $(this).data("streamid") };
@@ -45,10 +51,15 @@
 				}
 			})
 			.fail(function(xmlhr, status) {
-				console.log("error loading json data:");
-				console.log(status);
+				console.log("error loading json data");
 			});
+		window.setTimeout(update, 10000);
+	}
+
+	$(function() {
+		update();
 	});
+
   </script>
  </body>
 </html>

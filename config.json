@@ -14,6 +14,16 @@
 			"url": "http://wdr-mp3-m-wdr2-koeln.akacast.akamaistream.net/7/812/119456/v1/gnl.akacast.akamaistream.net/wdr-mp3-m-wdr2-koeln",
 			"title": "WDR 2 Radio",
 			"thumb": "http://www.wdr.de/wdrlive/wdr2_winkel.gif"
+		},
+		"zuendfunk": {
+			"url": "http://br-mp3-zuendfunk.akacast.akamaistream.net/7/291/229380/v1/gnl.akacast.akamaistream.net/br_mp3_zuendfunk",
+			"title": "Zündfunk 24",
+			"thumb": "http://www.br.de/static/img/bereich/radio/bayern2/zuendfunk/zuendfunk_logo.png?v=736b5"
+		},
+		"br3": {
+			"url": "http://gffstream.ic.llnwd.net/stream/gffstream_w12a",
+			"title": "Bayern 3",
+			"thumb": "http://www.br.de/static/img/bereich/radio/bayern3/bayern3_logo.png?v=736b5"
 		}
 	}
 }
