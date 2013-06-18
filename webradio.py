@@ -10,26 +10,30 @@ import urllib
 
 config = json.load(open(os.path.dirname(__file__) + "/config.json"))
 app = Flask(__name__, static_folder='static', static_url_path='')
-if not "mplayer_lock" in app.__dict__:
-	app.mplayer_lock = Lock()
-	app.mplayer = None
 
 def mplayer_play(url):
-	with app.mplayer_lock:
-		try:
-			if (app.mplayer!=None):
-				print "stream already running, closing..."
-				app.mplayer.stdin.write("quit\n")
-				app.mplayer.stdin.flush()
-				
-			print "starting up mplayer..."
-			app.mplayer = subprocess.Popen(["mplayer", "-ao","alsa:device=hw=1.1", "-slave", "-quiet", url], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
-			print "ok"
-		except:
-			print "error:", sys.exc_info()
-			app.mplayer = None
+	app.mplayer.stdin.write("loadfile \"%s\"\n" % (url))
+	mplayer_set_volume(mplayer_get_volume())
+
+def mplayer_set_volume(volume):
+	print "setting volume: %s" % (volume)
+	app.mplayer.volume = volume
+	app.mplayer.stdin.write("volume %d 1\n" % (volume))
+
+def mplayer_get_volume():
+	return app.mplayer.volume
 
 
+
+
+
+@app.route("/volume", methods=["GET", "POST"])
+def volume():
+	if request.method == "POST":
+		print request.json
+		mplayer_set_volume(request.json['volume'])
+	return jsonify({"volume": mplayer_get_volume()})		
+	
 @app.route("/stream/play", methods=["GET", "POST"])
 def play():
 	if request.method == "POST":
@@ -54,4 +58,6 @@ def index():
 
 if __name__ == "__main__":
 	app.debug = False
+	app.mplayer = subprocess.Popen(["mplayer", "-ao","alsa:device=hw=1.1", "-quiet", "-slave", "-idle", "-softvol" , "-volume", "0"], stdout=None, stdin=subprocess.PIPE)
+	app.mplayer.volume = 0;
 	app.run(host="0.0.0.0", port=8001)

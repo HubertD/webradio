@@ -4,6 +4,11 @@
   <style>
 	body { background-color:#222; color:white; font-family:verdana; }
 	.template { display:none; }
+
+	#controls { 
+		background-color:#444; margin:20px 5px; border: 2px solid #888; border-radius:20px; clear:both; min-height:60px; padding:20px;
+	}
+
 	.stream { background-color:#444; margin:20px 5px; border: 2px solid #888; border-radius:20px; clear:both; min-height:120px; cursor:pointer;}
 	.thumb { width:300px; height:100px; float:left; background-position: center; background-repeat:no-repeat; margin:5px; border-radius:20px; background-color:white; }
 	.info { padding: 5px 5px 5px 325px; }
@@ -18,6 +23,12 @@
 		<div class="title"></div>
 		<div class="descr"></div>
     </div>
+  </div>
+
+  <div id="controls">
+	<div id="volume_line" style="position:relative;height:10px;background-color:#CCC;margin:25px 10px;cursor:pointer">
+		<div id="volume_slider" style="position:absolute;top:-25px;width:40px;height:60px;background-color:#EEE;border-radius:5px"></div>
+	</div>
   </div>
 
   <div id="streams"></div>
@@ -53,11 +64,24 @@
 			.fail(function(xmlhr, status) {
 				console.log("error loading json data");
 			});
+
+		$.ajax({url:"/volume", dataType:"json"})
+			.done(function(data) {
+				$("#volume_slider").css("left", data.volume+"%");
+			});
+		
 		window.setTimeout(update, 10000);
 	}
 
+	var volume_timeout;
+
 	$(function() {
 		update();
+		$("#volume_line").click(function(e) {
+			var volume = Math.round(100 * (e.pageX - this.offsetLeft) / $(this).width());
+			$("#volume_slider").css("left", volume+"%");
+			$.ajax({type:"POST", url:"/volume", data:JSON.stringify({"volume": volume}, null, "\t"), contentType: 'application/json;charset=UTF-8'});
+		});
 	});
 
   </script>
