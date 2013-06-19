@@ -1,4 +1,8 @@
 {
+	"stream_titles": {
+		"blacklist": ["BAYERN 3", "bayern3", "Studio-Hotline"],
+		"replace": [["Sie h.*ren \"(.*)\" mit \"(.*)\"", "\\1 - \\2"]]
+	},
 	"streams": {
 		"detector_wort": {
 			"url": "http://detektor.fm/stream/mp3/wort/",

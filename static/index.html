@@ -29,6 +29,9 @@
 	<div id="volume_line" style="position:relative;height:10px;background-color:#CCC;margin:25px 10px;cursor:pointer">
 		<div id="volume_slider" style="position:absolute;top:-25px;width:40px;height:60px;background-color:#EEE;border-radius:5px"></div>
 	</div>
+	<div id="streaminfo">
+		Now playing: <span id="current_title"></span>
+	</div>
   </div>
 
   <div id="streams"></div>
@@ -65,9 +68,10 @@
 				console.log("error loading json data");
 			});
 
-		$.ajax({url:"/volume", dataType:"json"})
+		$.ajax({url:"/status", dataType:"json"})
 			.done(function(data) {
 				$("#volume_slider").css("left", data.volume+"%");
+				$("#current_title").text(data.title);
 			});
 		
 		window.setTimeout(update, 10000);
