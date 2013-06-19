@@ -15,6 +15,7 @@ app = Flask(__name__, static_folder='static', static_url_path='')
 
 def mplayer_play(url):
 	app.mplayer.stdin.write("loadfile \"%s\"\n" % (url))
+	app.mplayer.title = "title unknown"
 
 def mplayer_set_volume(volume):
 	print "setting volume: %s" % (volume)
@@ -65,7 +66,12 @@ def mplayer_task(app):
 	app.mplayer.volume = 25
 	app.mplayer.title = ""
 	while True:
-		line = app.mplayer.stdout.readline().decode("utf8").strip()
+		line = app.mplayer.stdout.readline().strip()
+		try:
+			line = line.decode("utf8")
+		except:
+			pass
+
 		if line.startswith("Starting playback"):
 			mplayer_set_volume(mplayer_get_volume())
 

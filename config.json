@@ -1,7 +1,15 @@
 {
 	"stream_titles": {
-		"blacklist": ["BAYERN 3", "bayern3", "Studio-Hotline"],
-		"replace": [["Sie h.*ren \"(.*)\" mit \"(.*)\"", "\\1 - \\2"]]
+		"blacklist": ["BAYERN 3", "bayern3", "Studio-Hotline", "Immer fuer NRW", "als Podcast"],
+		"replace": [
+			["Sie h.*ren \"(.*)\" mit \"(.*)\"", "\\1 - \\2"],
+			["Sie hoeren (.*)", "\\1"],
+			["WDR 2 (.*)", "\\1"],
+			["(.*) auf WDR 2", "\\1"],
+			["\"(.*)\" von (.*)", "\\2 - \\1"],
+			["Immer Ihre Musik: (.*)", "\\1"],
+			["(.*?)\\s\\s\\s*(.*?)\\s\\s\\s.*", "\\1 - \\2"]
+		]
 	},
 	"streams": {
 		"detector_wort": {
